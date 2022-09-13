@@ -1,0 +1,282 @@
+ScreenManager:
+    HomeScreen:
+    LoginScreen:
+    MainScreen:
+    RegScreen:
+<HomeScreen>:
+    name: 'Home'
+    BoxLayout:
+        orientation: "vertical"
+        MDLabel:
+            text: "Please login"
+            halign:"center"
+            font_style:'H3'
+        MDBottomAppBar:
+            MDToolbar:
+                title: "Safe Driving"
+                icon: r'./Icon/map.png'
+                type: "bottom"
+                left_action_items: [["cog-outline", lambda x: nav_drawer.set_state("open")]]
+                mode: "end"
+                on_action_button:
+                    root.login()
+    MDNavigationDrawer:
+        id: nav_drawer
+        BoxLayout:
+            padding: 20
+            spacing: 20
+            orientation: "vertical"
+            Image:
+                size_hint: None, None
+                size: "80dp", "80dp"
+                pos_hint: {'center_x': .5}
+                height: self.texture_size[1]
+                source: r'./Icon/Guest.png'
+            MDRectangleFlatButton:
+                pos_hint: {'center_x': .5}
+                text: "Login"
+                font_style: "Button"
+                size_hint_y: None
+                on_release:
+                    root.login()
+
+            MDRectangleFlatButton:
+                pos_hint: {'center_x': .5}
+                text: "Register"
+                font_style: "Button"
+                size_hint_y: None
+                on_release:
+                    root.Reg()
+            ScrollView:
+
+            MDLabel:
+                pos_hint: {'center_x': .5}
+                text:'Academic use'
+                font_size: 25
+                size_hint_y: None
+                halign: 'center'
+                height: self.texture_size[1]
+
+<LoginScreen>:
+    name: 'Login'
+    MDCard:
+        size_hint: .8, .6
+        pos_hint: {'center_x': .5, 'center_y': .5}
+        elevation: 10
+        padding: "25dp"
+        spacing: "25dp"
+        orientation: "vertical"
+        #md_bg_color: app.theme_cls.primary_dark
+
+        MDLabel:
+            text:'Safe Driving'
+            font_size: 40
+            halign: 'center'
+            size_hint_y: None
+            height: self.texture_size[1]
+            padding_y:  15
+            color: (243, 150, 33, 1)
+        MDTextFieldRound:
+            id: user_id
+            hint_text: 'username'
+            icon_right: 'account'
+            size_hint_x: None
+            width: 200
+            font_size: 18
+            pos_hint: {'center_x': .5}
+        MDTextFieldRound:
+            id: password
+            hint_text: 'password'
+            icon_right: 'eye-off'
+            size_hint_x: None
+            width: 200
+            font_size: 18
+            pos_hint: {'center_x': .5}
+            password: True
+        MDRoundFlatButton:
+            text: ' Login '
+            font_size: 25
+            pos_hint: {'center_x': .5}
+            on_release:
+                Pass = root.login(user_id.text, password.text)
+                log_Error_Messenger.text = '' if Pass else 'Incorrect username or password.'
+        MDRoundFlatButton:
+            text: 'Cancel'
+            font_size: 25
+            pos_hint: {'center_x': .5}
+            on_release:
+                app.sm.current = 'Home'
+                app.sm.transition.direction = 'left'
+        MDLabel:
+            id: log_Error_Messenger
+            text: ''
+
+<RegScreen>:
+    name: 'Reg'
+    MDCard:
+        size_hint: .8, .8
+        pos_hint: {'center_x': .5, 'center_y': .5}
+        elevation: 10
+        padding: "25dp"
+        spacing: "25dp"
+        orientation: "vertical"
+        #md_bg_color: app.theme_cls.primary_dark
+
+        MDLabel:
+            text:'Safe Driving'
+            font_size: 40
+            halign: 'center'
+            size_hint_y: None
+            height: self.texture_size[1]
+            padding_y:  15
+            color: (243, 150, 33, 1)
+        MDTextFieldRound:
+            id: user_id
+            hint_text: 'username'
+            icon_right: 'account'
+            size_hint_x: None
+            width: 200
+            font_size: 18
+            pos_hint: {'center_x': .5}
+        MDTextFieldRound:
+            id: password
+            hint_text: 'password'
+            icon_right: 'eye-off'
+            size_hint_x: None
+            width: 200
+            font_size: 18
+            pos_hint: {'center_x': .5}
+            password: True
+        MDTextFieldRound:
+            id: password_check
+            hint_text: 'password again'
+            icon_right: 'eye-off'
+            size_hint_x: None
+            width: 200
+            font_size: 18
+            pos_hint: {'center_x': .5}
+            password: True
+        MDTextFieldRound:
+            id: car_brand
+            hint_text: 'car brand'
+            size_hint_x: None
+            width: 200
+            font_size: 18
+            pos_hint: {'center_x': .5}
+        MDTextFieldRound:
+            id: number
+            hint_text: 'License plate number'
+            size_hint_x: None
+            width: 200
+            font_size: 18
+            pos_hint: {'center_x': .5}
+        MDRoundFlatButton:
+            text: ' Login '
+            font_size: 25
+            pos_hint: {'center_x': .5}
+            on_release:
+                Pass = root.Reg(user_id.text, password.text, password_check.text, car_brand.text, number.text)
+                reg_Error_Messenger.text = '' if Pass else 'Incorrect username or password.'
+        MDRoundFlatButton:
+            text: 'Cancel'
+            font_size: 25
+            pos_hint: {'center_x': .5}
+            on_release:
+                app.sm.current = 'Home'
+                app.sm.transition.direction = 'left'
+        MDLabel:
+            id: reg_Error_Messenger
+            text: ''
+
+<MainScreen>:
+    name: 'Main'
+    BoxLayout:
+        orientation: "vertical"
+        MapView:
+            id:Map
+            map_source:'osm-hot'
+            lat:25.0341
+            lon:121.565
+            zoom:17
+            MapMarkerPopup:
+                id:user
+                source: "./Icon/Map/usercar.png"
+                lat:25.0341
+                lon:121.565
+        MDBottomAppBar:
+            MDToolbar:
+                id:amb_icon
+                title: "Safe Driving"
+                icon: r'./Icon/map.png'
+                type: "bottom"
+                left_action_items: [["cog-outline", lambda x: nav_drawer.set_state("open")]]
+                mode: "end"
+                on_action_button:
+                    root.amb()
+    MDNavigationDrawer:
+        id: nav_drawer
+        BoxLayout:
+            padding: "20dp"
+            spacing: "20dp"
+            orientation: "vertical"
+
+            Image:
+                size_hint: None, None
+                size: "80dp", "80dp"
+                pos_hint: {'center_x': .5}
+                height: self.texture_size[1]
+                source: r'./Icon/Guest.png'
+
+            MDLabel:
+                text:'Car Brand: None'
+                font_size: 30
+                size_hint_y: None
+                halign: 'center'
+                height: self.texture_size[1]
+
+            MDLabel:
+                text:'Number: None'
+                font_size: 30
+                size_hint_y: None
+                halign: 'center'
+                height: self.texture_size[1]
+            ScrollView:
+
+                MDList:
+                    OneLineIconListItem:
+                        text: "GPS"
+                        MDSwitch:
+                            pos_hint: {'center_x': .9, 'center_y': .5}
+                            on_active: root.GPS(*args)
+                        IconLeftWidget:
+                            icon:'map-marker'
+
+                    OneLineIconListItem:
+                        text: "SOS"
+                        MDSwitch:
+                            pos_hint: {'center_x': .9, 'center_y': .5}
+                            on_active: root.sos(*args)
+                        IconLeftWidget:
+                            icon:'alarm-light'
+
+                    OneLineIconListItem:
+                        text: "Emergency message"
+                        MDSwitch:
+                            pos_hint: {'center_x': .9, 'center_y': .5}
+                            on_active: root.message(*args)
+                        IconLeftWidget:
+                            icon:'alert-outline'
+
+                    OneLineIconListItem:
+                        on_release:
+                            root.logout()
+                        text: 'Logout'
+                        IconLeftWidget:
+                            icon:'logout'
+            MDLabel:
+                pos_hint: {'center_x': .5}
+                text:'Academic use'
+                font_size: 25
+                size_hint_y: None
+                halign: 'center'
+                height: self.texture_size[1]
