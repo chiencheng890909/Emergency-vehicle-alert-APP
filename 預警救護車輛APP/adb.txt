@@ -1,0 +1,3 @@
+adb logcat | findstr org.test.app
+adb logcat | findstr python
+requirements = python3,kivy==2.0.0,kivymd,openssl,futures,requests,https://github.com/kivy-garden/mapview/archive/master.zip,idna,charset-normalizer,urllib3,PIL
